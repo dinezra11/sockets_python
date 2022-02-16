@@ -25,8 +25,14 @@ try:
     while True:
         print("Waiting for data from the client...")
         data = conn.recv(1024) # Receive data from the client
+        if not data:
+            break # Connection closed. Exit from the loop
+
         print("Data from client: {}".format(data.decode()))
         conn.send(data) # Send the data back to the client (echo-server)
+
+    # Communication with the client ended. Close the socket.
+    conn.close()
 
 except socket.error as e:
     print(e)
